@@ -6,12 +6,9 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,25 +17,20 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
-import uk.co.caprica.vlcj.player.direct.BufferFormatCallback;
 import uk.co.caprica.vlcj.player.direct.DefaultDirectMediaPlayer;
 import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class App extends Application {
+public class App2 extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -72,7 +64,13 @@ public class App extends Application {
      */
     private static final int HEIGHT = 576;
 
-    private Stage stage;
+
+    @FXML
+    Label btn_show;
+
+    @FXML
+    BorderPane videoContainer;
+
 
     /**
      * Lightweight JavaFX canvas, the video is rendered here.
@@ -84,23 +82,21 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        this.stage = primaryStage;
+        Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
 
-        primaryStage.setTitle("VlcJ");
+        primaryStage.setTitle("Hello World");
 
-        Group group = new Group();
+        Scene scene = new Scene(root);
 
-        group.setAutoSizeChildren(true);
-
-        canvas = new Canvas();
-
-        group.getChildren().add(canvas);
-
-        Scene scene = new Scene(group);
+        scene.getWindow();
 
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        canvas = new Canvas();
+
+        videoContainer.setCenter(canvas);
 
         pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
 
@@ -159,11 +155,10 @@ public class App extends Application {
             Platform.runLater(() -> {
                 canvas.setWidth(width);
                 canvas.setHeight(height);
-                stage.setWidth(width/2);
-                stage.setHeight(height/2);
             });
 
-            return new RV32BufferFormat(width/4, height/4);
+
+            return new RV32BufferFormat(width, height);
         }
         );
 
@@ -212,7 +207,9 @@ public class App extends Application {
     public void onTest(ActionEvent event) {
 
 
+
     }
+
 
 
 }
