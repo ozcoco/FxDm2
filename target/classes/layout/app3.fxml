@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.oz.fx.App3$AppController">
+<AnchorPane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.oz.fx.App3$AppController">
     <children>
         <HBox prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: #f4d041;">
             <children>
-                <VBox prefHeight="0.0" prefWidth="240.0"  style="-fx-background-color: #6d41f4;"/>
-                <StackPane prefHeight="0.0" prefWidth="1160.0" style="-fx-background-color: #f441a3;"/>
+                <VBox prefHeight="0.0" prefWidth="240.0" style="-fx-background-color: #6d41f4;">
+                    <children>
+                        <AnchorPane prefHeight="100.0"/>
+                        <JFXListView fx:id="list_RFID" opacity="0.61" prefHeight="700.0"/>
+                    </children>
+                </VBox>
+                <StackPane prefHeight="0.0" prefWidth="1160.0" style="-fx-background-color: #f441a3;">
+                    <children>
+                        <JFXListView fx:id="list_monitor" opacity="0.63" prefHeight="-Infinity" prefWidth="-Infinity"/>
+                    </children>
+                </StackPane>
             </children>
         </HBox>
     </children>
-
 </AnchorPane>
