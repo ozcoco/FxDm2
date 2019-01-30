@@ -82,7 +82,7 @@ public class App2 extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layout/app.fxml"));
 
         primaryStage.setTitle("Hello World");
 
