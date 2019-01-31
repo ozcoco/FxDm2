@@ -6,20 +6,18 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ResourceBundle;
+import org.oz.fx.control.ItemReader;
+import org.oz.fx.control.VideoView;
 
 
 public class App3 extends Application {
 
 
-    public final static class AppController implements Initializable {
+    public final static class AppController {
 
 
         @FXML
@@ -30,43 +28,48 @@ public class App3 extends Application {
         JFXListView list_monitor;
 
 
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-
-            System.out.println("initialize.........");
-
-            initData();
-
-            initView();
-
-        }
-
-
         private void initView() {
 
             ObservableList readerItems = list_RFID.getItems();
 
             ObservableList monitorItems = list_monitor.getItems();
 
+            for (int i = 0; i < 10; i++) {
 
-            for (int i = 0; i < 30; i++) {
+                final ItemReader itemReader = new ItemReader();
 
-                readerItems.add(new Label("reader" + (i + 1)));
+                itemReader.setText("reader" + (i + 1));
 
-                monitorItems.add(new Label("monitor" + (i + 1)));
+                readerItems.add(itemReader);
 
             }
+
+            String url1 = "rtsp://admin:lz123456@192.168.1.201/h265/ch1/main/av_stream";
+            String url2 = "rtmp://58.200.131.2:1935/livetv/hunantv";
+
+
+            monitorItems.add(new StackPane(new VideoView(url1, 6)));
+
+            monitorItems.add(new StackPane(new VideoView(url2, 3)));
+
+            monitorItems.add(new StackPane(new VideoView(url1, 6)));
+
+            monitorItems.add(new StackPane(new VideoView(url2, 3)));
+
+
         }
 
         private void initData() {
 
             System.out.println("init data 。。。。");
+
+            System.out.println(list_RFID.getId());
+
         }
 
 
-
-        /*        @FXML
-        private void initialize() {
+        @FXML
+        public void initialize() {
 
             System.out.println("initialize.........");
 
@@ -74,7 +77,7 @@ public class App3 extends Application {
 
             initView();
 
-        }*/
+        }
 
 
     }
@@ -112,6 +115,5 @@ public class App3 extends Application {
 
         Platform.exit();
     }
-
 
 }

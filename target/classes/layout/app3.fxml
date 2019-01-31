@@ -9,24 +9,22 @@
 <AnchorPane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.oz.fx.App3$AppController">
     <children>
-        <HBox prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: #f4d041;">
+        <HBox prefHeight="800.0" prefWidth="1400.0">
             <children>
                 <VBox prefHeight="0.0" prefWidth="240.0" style="-fx-background-color: #6d41f4;">
                     <children>
                         <VBox prefHeight="100.0" style="-fx-background-color: #337a1f;">
                             <children>
-                                <HBox prefHeight="50"
-                                      style="-fx-background-color: #ffffff;"/>
-                                <HBox prefHeight="50"
-                                      style="-fx-background-color: #000000;"/>
+                                <HBox prefHeight="50" style="-fx-background-color: #ffffff;"/>
+                                <HBox prefHeight="50" style="-fx-background-color: #000000;"/>
                             </children>
                         </VBox>
-                        <JFXListView fx:id="list_RFID" opacity="0.61" prefHeight="700.0"/>
+                        <JFXListView fx:id="list_RFID" prefHeight="700.0"/>
                     </children>
                 </VBox>
-                <StackPane prefHeight="0.0" prefWidth="1160.0" style="-fx-background-color: #f441a3;">
+                <StackPane prefHeight="0.0" prefWidth="1160.0">
                     <children>
-                        <JFXListView fx:id="list_monitor" opacity="0.63" prefHeight="-Infinity" prefWidth="-Infinity"/>
+                        <JFXListView fx:id="list_monitor" prefHeight="-Infinity" prefWidth="-Infinity"/>
                     </children>
                 </StackPane>
             </children>
