@@ -6,35 +6,24 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritablePixelFormat;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
-import uk.co.caprica.vlcj.player.direct.BufferFormatCallback;
 import uk.co.caprica.vlcj.player.direct.DefaultDirectMediaPlayer;
 import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -44,7 +33,8 @@ public class App extends Application {
         launch(args);
     }
 
-    private static final String VIDEO_FILE = "rtsp://admin:lz123456@192.168.1.201/h264/ch1/main/av_stream";
+//    private static final String VIDEO_FILE = "rtsp://admin:lz123456@192.168.1.201/h264/ch1/main/av_stream";
+    private static final String VIDEO_FILE = "rtmp://58.200.131.2:1935/livetv/hunantv";
 
     /**
      * Pixel writer to update the canvas.
@@ -159,11 +149,11 @@ public class App extends Application {
             Platform.runLater(() -> {
                 canvas.setWidth(width);
                 canvas.setHeight(height);
-                stage.setWidth(width/2);
-                stage.setHeight(height/2);
+                stage.setWidth(width);
+                stage.setHeight(height);
             });
 
-            return new RV32BufferFormat(width/4, height/4);
+            return new RV32BufferFormat(width, height);
         }
         );
 

@@ -13,7 +13,14 @@
             <children>
                 <VBox prefHeight="0.0" prefWidth="240.0" style="-fx-background-color: #6d41f4;">
                     <children>
-                        <AnchorPane prefHeight="100.0"/>
+                        <VBox prefHeight="100.0" style="-fx-background-color: #337a1f;">
+                            <children>
+                                <HBox prefHeight="50"
+                                      style="-fx-background-color: #ffffff;"/>
+                                <HBox prefHeight="50"
+                                      style="-fx-background-color: #000000;"/>
+                            </children>
+                        </VBox>
                         <JFXListView fx:id="list_RFID" opacity="0.61" prefHeight="700.0"/>
                     </children>
                 </VBox>
