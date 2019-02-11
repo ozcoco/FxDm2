@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
+<fx:root type="javafx.scene.layout.FlowPane" xmlns="http://javafx.com/javafx/8.0.172-ea"
+         xmlns:fx="http://javafx.com/fxml/1">
 
-
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml/1"
-         xmlns="http://javafx.com/javafx/8.0.172-ea">
-    <Canvas  height="200.0" width="200.0"/>
 </fx:root>

@@ -10,6 +10,5 @@
         <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#onTest" text="Button"/>
         <Label fx:id="btn_show" layoutX="110.0" layoutY="28.0" text="Label"/>
         <BorderPane fx:id="videoContainer" layoutX="51.0" layoutY="81.0" prefHeight="278.0" prefWidth="475.0"/>
-
     </children>
 </AnchorPane>

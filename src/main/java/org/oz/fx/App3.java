@@ -3,15 +3,15 @@ package org.oz.fx;
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.oz.fx.control.ItemMonitor;
 import org.oz.fx.control.ItemReader;
-import org.oz.fx.control.VideoView;
 
 
 public class App3 extends Application {
@@ -21,18 +21,16 @@ public class App3 extends Application {
 
 
         @FXML
-        JFXListView list_RFID;
+        JFXListView<ItemReader> list_RFID;
 
 
         @FXML
-        JFXListView list_monitor;
+        JFXListView<ItemMonitor> list_monitor;
 
 
         private void initView() {
 
-            ObservableList readerItems = list_RFID.getItems();
-
-            ObservableList monitorItems = list_monitor.getItems();
+            ObservableList<ItemReader> readerItems = list_RFID.getItems();
 
             for (int i = 0; i < 10; i++) {
 
@@ -48,13 +46,14 @@ public class App3 extends Application {
             String url2 = "rtmp://58.200.131.2:1935/livetv/hunantv";
 
 
-            monitorItems.add(new StackPane(new VideoView(url1, 6)));
+            ObservableList<ItemMonitor> monitors = FXCollections.observableArrayList();
 
-            monitorItems.add(new StackPane(new VideoView(url2, 3)));
+            monitors.add(new ItemMonitor(url2));
+//            monitors.add(new ItemMonitor(url2, url2, url2));
+//            monitors.add(new ItemMonitor(url2, url2, url2));
+//            monitors.add(new ItemMonitor(url2, url2, url2));
 
-            monitorItems.add(new StackPane(new VideoView(url1, 6)));
-
-            monitorItems.add(new StackPane(new VideoView(url2, 3)));
+            list_monitor.setItems(monitors);
 
 
         }
@@ -76,7 +75,6 @@ public class App3 extends Application {
             initData();
 
             initView();
-
         }
 
 
@@ -114,6 +112,11 @@ public class App3 extends Application {
         super.stop();
 
         Platform.exit();
+
+        System.exit(0);
+
+        System.gc();
+
     }
 
 }
