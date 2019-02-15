@@ -8,12 +8,16 @@ import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritablePixelFormat;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
@@ -27,14 +31,13 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class App extends Application {
+public class App2 extends Application {
 
     public static void main(String[] args) {
         launch(args);
     }
 
-//    private static final String VIDEO_FILE = "rtsp://admin:lz123456@192.168.1.201/h264/ch1/main/av_stream";
-    private static final String VIDEO_FILE = "rtmp://58.200.131.2:1935/livetv/hunantv";
+    private static final String VIDEO_FILE = "rtsp://admin:lz123456@192.168.1.201/h264/ch1/main/av_stream";
 
     /**
      * Pixel writer to update the canvas.
@@ -62,7 +65,13 @@ public class App extends Application {
      */
     private static final int HEIGHT = 576;
 
-    private Stage stage;
+
+    @FXML
+    Label btn_show;
+
+    @FXML
+    BorderPane videoContainer;
+
 
     /**
      * Lightweight JavaFX canvas, the video is rendered here.
@@ -74,30 +83,34 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        this.stage = primaryStage;
+        Parent root = FXMLLoader.load(getClass().getResource("/layout/app.fxml"));
 
-        primaryStage.setTitle("VlcJ");
+        primaryStage.setTitle("Hello World");
 
-        Group group = new Group();
+        Scene scene = new Scene(root);
 
-        group.setAutoSizeChildren(true);
-
-        canvas = new Canvas();
-
-        group.getChildren().add(canvas);
-
-        Scene scene = new Scene(group);
+        scene.getWindow();
 
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+    }
+
+
+    @FXML
+    public void initialize() {
+
+        canvas = new Canvas();
+
+        videoContainer.setCenter(canvas);
 
         pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
 
         pixelFormat = PixelFormat.getByteBgraInstance();
 
         initPlayer();
-
+        
     }
 
 
@@ -149,9 +162,8 @@ public class App extends Application {
             Platform.runLater(() -> {
                 canvas.setWidth(width);
                 canvas.setHeight(height);
-                stage.setWidth(width);
-                stage.setHeight(height);
             });
+
 
             return new RV32BufferFormat(width, height);
         }

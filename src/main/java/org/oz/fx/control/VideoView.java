@@ -1,20 +1,13 @@
-package org.oz.fx;
+package org.oz.fx.control;
 
 import com.sun.jna.Memory;
 import com.sun.jna.NativeLibrary;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.concurrent.ScheduledService;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritablePixelFormat;
-import javafx.stage.Stage;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -24,17 +17,13 @@ import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class App extends Application {
+public class VideoView extends Canvas {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private String url;
 
-//    private static final String VIDEO_FILE = "rtsp://admin:lz123456@192.168.1.201/h264/ch1/main/av_stream";
-    private static final String VIDEO_FILE = "rtmp://58.200.131.2:1935/livetv/hunantv";
+    private int videoWidth, videoHeight;
 
     /**
      * Pixel writer to update the canvas.
@@ -62,37 +51,23 @@ public class App extends Application {
      */
     private static final int HEIGHT = 576;
 
-    private Stage stage;
+    private int scale;
 
-    /**
-     * Lightweight JavaFX canvas, the video is rendered here.
-     */
-    private Canvas canvas;
 
-    ScheduledService<Void> scheduledService;
+    private DirectMediaPlayer mediaPlayer;
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
+    public VideoView(String url, int scale) {
+        super();
+        this.url = url;
 
-        this.stage = primaryStage;
+        this.scale = scale;
 
-        primaryStage.setTitle("VlcJ");
+        initialize();
+    }
 
-        Group group = new Group();
+    private void initialize() {
 
-        group.setAutoSizeChildren(true);
-
-        canvas = new Canvas();
-
-        group.getChildren().add(canvas);
-
-        Scene scene = new Scene(group);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-
-        pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
+        pixelWriter = getGraphicsContext2D().getPixelWriter();
 
         pixelFormat = PixelFormat.getByteBgraInstance();
 
@@ -101,11 +76,7 @@ public class App extends Application {
     }
 
 
-    DirectMediaPlayer mediaPlayer;
-
-    DirectMediaPlayerComponent playerComponent;
-
-    void initPlayer() {
+    private void initPlayer() {
 
         boolean found = new NativeDiscovery().discover();
         System.out.println(found);
@@ -135,42 +106,43 @@ public class App extends Application {
         //打印版本，用来检验是否获得文件
         System.out.println(LibVlc.INSTANCE.libvlc_get_version());
 
-        playerComponent = new DirectMediaPlayerComponent((sourceWidth, sourceHeight) -> {
+        final DirectMediaPlayerComponent playerComponent = new DirectMediaPlayerComponent((sourceWidth, sourceHeight) -> {
+
             final int width;
+
             final int height;
+
             if (useSourceSize) {
+
                 width = sourceWidth;
                 height = sourceHeight;
+
             } else {
                 width = WIDTH;
                 height = HEIGHT;
             }
 
             Platform.runLater(() -> {
-                canvas.setWidth(width);
-                canvas.setHeight(height);
-                stage.setWidth(width);
-                stage.setHeight(height);
+
+                setWidth(width / scale);
+
+                setHeight(height / scale);
+
             });
 
-            return new RV32BufferFormat(width, height);
+            return new RV32BufferFormat(width / scale, height / scale);
         }
         );
 
         mediaPlayer = playerComponent.getMediaPlayer();
 
-        playerComponent.getMediaPlayer().playMedia(VIDEO_FILE);
+        mediaPlayer.playMedia(url);
 
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
 
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-                System.out.println(Thread.currentThread().getName());
-
                 renderFrame();
-
             }
         };
 
@@ -179,12 +151,9 @@ public class App extends Application {
     }
 
 
-    protected final void renderFrame() {
+    private void renderFrame() {
         Memory[] nativeBuffers = mediaPlayer.lock();
         if (nativeBuffers != null) {
-            // FIXME there may be more efficient ways to do this...
-            // Since this is now being called by a specific rendering time, independent of the native video callbacks being
-            // invoked, some more defensive conditional checks are needed
             Memory nativeBuffer = nativeBuffers[0];
             if (nativeBuffer != null) {
                 ByteBuffer byteBuffer = nativeBuffer.getByteBuffer(0, nativeBuffer.size());
@@ -195,13 +164,6 @@ public class App extends Application {
             }
         }
         mediaPlayer.unlock();
-    }
-
-
-    @FXML
-    public void onTest(ActionEvent event) {
-
-
     }
 
 
