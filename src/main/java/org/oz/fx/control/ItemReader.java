@@ -1,18 +1,27 @@
 package org.oz.fx.control;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXRadioButton;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
-public class ItemReader extends VBox {
+public class ItemReader extends HBox {
 
 
     @FXML
-    private TextField txSomething;
+    private JFXCheckBox label;
+
+    @FXML
+    private JFXRadioButton status;
+
+    @FXML
+    private JFXButton control;
 
     public ItemReader() {
 
@@ -31,33 +40,37 @@ public class ItemReader extends VBox {
 
     }
 
-
     @FXML
     public void initialize() {
 
-        System.out.println("init ItemReader");
-
-        txSomething.setStyle("-fx-background-color: #99CCFF;");
 
     }
 
-
-    public String getText() {
+    public String getLable() {
         return textProperty().get();
     }
 
-    public void setText(String value) {
+    public void setLable(String value) {
         textProperty().set(value);
     }
 
-    public StringProperty textProperty() {
-        return txSomething.textProperty();
+    private StringProperty textProperty() {
+        return label.textProperty();
     }
 
 
     @FXML
-    protected void onSomething() {
-        System.out.println("The button was clicked!");
+    protected void onControl() {
+
+        if (status.selectedProperty().get()) {
+            status.selectedProperty().setValue(false);
+            status.textProperty().setValue("D");
+        } else {
+            status.selectedProperty().setValue(true);
+            status.textProperty().setValue("A");
+        }
+
+
     }
 
 }

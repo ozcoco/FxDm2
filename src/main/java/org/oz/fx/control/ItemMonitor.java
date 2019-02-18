@@ -52,7 +52,7 @@ public class ItemMonitor extends FlowPane {
 
         for (String url : urls) {
 
-            final MonitorView monitorView = new MonitorView(1, url);
+            final MonitorView monitorView = new MonitorView(4, url);
 
             getChildren().add(monitorView);
 

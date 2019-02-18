@@ -32,11 +32,11 @@ public class App3 extends Application {
 
             ObservableList<ItemReader> readerItems = list_RFID.getItems();
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
 
                 final ItemReader itemReader = new ItemReader();
 
-                itemReader.setText("reader" + (i + 1));
+                itemReader.setLable("reader" + (i + 1));
 
                 readerItems.add(itemReader);
 
@@ -48,7 +48,7 @@ public class App3 extends Application {
 
             ObservableList<ItemMonitor> monitors = FXCollections.observableArrayList();
 
-            monitors.add(new ItemMonitor(url2));
+            monitors.add(new ItemMonitor(url2, url1));
 //            monitors.add(new ItemMonitor(url2, url2, url2));
 //            monitors.add(new ItemMonitor(url2, url2, url2));
 //            monitors.add(new ItemMonitor(url2, url2, url2));
